@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Dark theme used by every Concilia screen. No AppCompat / Material dependency needed. -->
+    <style name="Theme.Concilia" parent="android:Theme.Material.NoActionBar">
+        <item name="android:windowBackground">#0D0B08</item>
+        <item name="android:statusBarColor">#0D0B08</item>
+        <item name="android:navigationBarColor">#0D0B08</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:colorBackground">#0D0B08</item>
+    </style>
+</resources>

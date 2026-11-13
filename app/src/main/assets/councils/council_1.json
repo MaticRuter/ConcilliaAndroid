@@ -1,0 +1,260 @@
+{
+  "id": 1,
+  "name": "Niceja I",
+  "year": 325,
+  "levelCount": 7,
+  "description": "Prvi ekumenski koncil, sklican s strani cesarja Konstantina Velikega. Glavni namen je bil obsoditi arijanstvo in potrditi, da je Sin istega bistva kot Oče.",
+  "mainConcept": "Enakost Očeta in Sina (homoousios)",
+  "lessons": [
+    {
+      "lessonId": 1,
+      "title": "Uvod v Nicejo I",
+      "type": "intro",
+      "questions": [
+        {
+          "questionText": "Kdaj je potekal Prvi nicejski koncil?",
+          "type": "multiple_choice",
+          "answers": [
+            {"text": "325", "isCorrect": true},
+            {"text": "381", "isCorrect": false},
+            {"text": "431", "isCorrect": false},
+            {"text": "451", "isCorrect": false}
+          ]
+        },
+        {
+          "questionText": "Kdo je sklical Prvi nicejski koncil?",
+          "type": "multiple_choice",
+          "answers": [
+            {"text": "Cesar Konstantin Veliki", "isCorrect": true},
+            {"text": "Papež Silvester I.", "isCorrect": false},
+            {"text": "Arius", "isCorrect": false},
+            {"text": "Atanazij", "isCorrect": false}
+          ]
+        },
+        {
+          "questionText": "Zakaj je nicejski koncil opisan kot prvi ekumenski koncil?",
+          "type": "multiple_choice",
+          "answers": [
+            {"text": "Ker je prvič zbral škofe celotne Oikoumenē (naseljenega sveta)", "isCorrect": true},
+            {"text": "Ker je bil prvi koncil v Rimu", "isCorrect": false},
+            {"text": "Ker je ustanovil papeštvo", "isCorrect": false},
+            {"text": "Ker je ukinil vse druge koncile", "isCorrect": false}
+          ]
+        },
+        {
+          "questionText": "Nicejski koncil je bil prvi ekumenski koncil v zgodovini Cerkve.",
+          "type": "true_false",
+          "answers": [
+            {"text": "True", "isCorrect": true},
+            {"text": "False", "isCorrect": false}
+          ]
+        },
+        {
+          "questionText": "Koncil v Niceji je potekal v Rimu.",
+          "type": "true_false",
+          "answers": [
+            {"text": "True", "isCorrect": false},
+            {"text": "False", "isCorrect": true}
+          ]
+        }
+      ]
+    },
+    {
+      "lessonId": 2,
+      "title": "Arijanstvo – glavna herezija",
+      "type": "heresy",
+      "questions": [
+        {
+          "questionText": "Katero herezijo je Nicejski koncil obsodil?",
+          "type": "multiple_choice",
+          "answers": [
+            {"text": "Arijanstvo", "isCorrect": true},
+            {"text": "Nestorianizem", "isCorrect": false},
+            {"text": "Ikonoklazem", "isCorrect": false},
+            {"text": "Monotelitizem", "isCorrect": false}
+          ]
+        },
+        {
+          "questionText": "Kaj je učil Arius?",
+          "type": "multiple_choice",
+          "answers": [
+            {"text": "Sin ni enak Očetu, ampak je ustvarjeno bitje", "isCorrect": true},
+            {"text": "Kristus ima dve volji", "isCorrect": false},
+            {"text": "Marija ni Theotokos", "isCorrect": false},
+            {"text": "Sveti Duh je ustvarjen angel", "isCorrect": false}
+          ]
+        },
+        {
+          "questionText": "Arijanstvo je zanikalo pravo božanskost Jezusa Kristusa.",
+          "type": "true_false",
+          "answers": [
+            {"text": "True", "isCorrect": true},
+            {"text": "False", "isCorrect": false}
+          ]
+        },
+        {
+          "questionText": "Arius je učil, da je bil Sin vedno večen kot Oče.",
+          "type": "true_false",
+          "answers": [
+            {"text": "True", "isCorrect": false},
+            {"text": "False", "isCorrect": true}
+          ]
+        },
+        {
+          "questionText": "Kaj je pomenila Arijeva trditev, da je Sin nastal iz tistega, česar ni bilo?",
+          "type": "multiple_choice",
+          "answers": [
+            {"text": "Da Sin ni večen in je ustvarjen", "isCorrect": true},
+            {"text": "Da je Sin enak Očetu", "isCorrect": false},
+            {"text": "Da je Oče postal Sin", "isCorrect": false},
+            {"text": "Da Sin nima človeške narave", "isCorrect": false}
+          ]
+        }
+      ]
+    },
+    {
+      "lessonId": 3,
+      "title": "Homoousios in veroizpoved",
+      "type": "doctrine",
+      "questions": [
+        {
+          "questionText": "Katera grška beseda je postala ključna na Nicejskem koncilu?",
+          "type": "multiple_choice",
+          "answers": [
+            {"text": "Homoousios", "isCorrect": true},
+            {"text": "Theotokos", "isCorrect": false},
+            {"text": "Hypostasis", "isCorrect": false},
+            {"text": "Monotelitizem", "isCorrect": false}
+          ]
+        },
+        {
+          "questionText": "Kaj pomeni homoousios?",
+          "type": "multiple_choice",
+          "answers": [
+            {"text": "Iste substance oziroma istega bistva", "isCorrect": true},
+            {"text": "Podobne substance", "isCorrect": false},
+            {"text": "Dve naravi", "isCorrect": false},
+            {"text": "Ena volja", "isCorrect": false}
+          ]
+        },
+        {
+          "questionText": "Nicejski simbol uči, da je Sin 'rojen, ne ustvarjen'.",
+          "type": "true_false",
+          "answers": [
+            {"text": "True", "isCorrect": true},
+            {"text": "False", "isCorrect": false}
+          ]
+        },
+        {
+          "questionText": "Dopolni: Sin je ______ z Očetom.",
+          "type": "fill_blank",
+          "correctAnswer": "istega bistva (homoousios)"
+        },
+        {
+          "questionText": "Kaj je Nicejski koncil želel zaščititi z izrazom homoousios?",
+          "type": "multiple_choice",
+          "answers": [
+            {"text": "Popolno Kristusovo božanskost", "isCorrect": true},
+            {"text": "Samo Kristusovo človeškost", "isCorrect": false},
+            {"text": "Čaščenje ikon", "isCorrect": false},
+            {"text": "Papeško nezmotljivost", "isCorrect": false}
+          ]
+        }
+      ]
+    },
+    {
+      "lessonId": 4,
+      "title": "Pomembne osebe",
+      "type": "people",
+      "questions": [
+        {
+          "questionText": "Kdo je bil največji nasprotnik arijanstva?",
+          "type": "multiple_choice",
+          "answers": [
+            {"text": "Atanazij Aleksandrijski", "isCorrect": true},
+            {"text": "Arius", "isCorrect": false},
+            {"text": "Nestorij", "isCorrect": false},
+            {"text": "Fotij", "isCorrect": false}
+          ]
+        },
+        {
+          "questionText": "Kdo je bil Arius?",
+          "type": "multiple_choice",
+          "answers": [
+            {"text": "Duhovnik, katerega nauk je bil obsojen kot herezija", "isCorrect": true},
+            {"text": "Papež, ki je sklical koncil", "isCorrect": false},
+            {"text": "Cesarjev svetovalec", "isCorrect": false},
+            {"text": "Avtor Kalcedonske definicije", "isCorrect": false}
+          ]
+        },
+        {
+          "questionText": "Atanazij je branil nauk, da je Sin istega bistva kot Oče.",
+          "type": "true_false",
+          "answers": [
+            {"text": "True", "isCorrect": true},
+            {"text": "False", "isCorrect": false}
+          ]
+        },
+        {
+          "questionText": "Poveži osebo z opisom.",
+          "type": "matching",
+          "leftItems": [
+            "Arius",
+            "Atanazij",
+            "Konstantin Veliki"
+          ],
+          "rightItems": [
+            "Branilec nicejske vere",
+            "Cesar, ki je sklical koncil",
+            "Avtor heretičnega nauka o Sinu"
+          ],
+          "correctMatches": [
+            "2",
+            "0",
+            "1"
+          ]
+        }
+      ]
+    },
+    {
+      "lessonId": 5,
+      "title": "Zgodovinski pomen",
+      "type": "history",
+      "questions": [
+        {
+          "questionText": "Koliko škofov približno se je zbralo na Nicejskem koncilu?",
+          "type": "multiple_choice",
+          "answers": [
+            {"text": "Okoli 300", "isCorrect": true},
+            {"text": "Okoli 50", "isCorrect": false},
+            {"text": "Okoli 1000", "isCorrect": false},
+            {"text": "Okoli 10", "isCorrect": false}
+          ]
+        },
+        {
+          "questionText": "Nicejski koncil je takoj po obsodbi arijanstva končal vse spore v Cerkvi.",
+          "type": "true_false",
+          "answers": [
+            {"text": "True", "isCorrect": false},
+            {"text": "False", "isCorrect": true}
+          ]
+        },
+        {
+          "questionText": "Kaj je bil eden glavnih rezultatov koncila?",
+          "type": "multiple_choice",
+          "answers": [
+            {"text": "Nicejska veroizpoved", "isCorrect": true},
+            {"text": "Kalcedonska definicija", "isCorrect": false},
+            {"text": "Tomus papeža Leona", "isCorrect": false},
+            {"text": "Odločitev o ikonah", "isCorrect": false}
+          ]
+        },
+        {
+          "questionText": "Dopolni: Niceja je branila, da je Jezus Kristus pravi ______.",
+          "type": "fill_blank",
+          "correctAnswer": "Bog"
+        }
+      ]
+    }
+  ]
+}
