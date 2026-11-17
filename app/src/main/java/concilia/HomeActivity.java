@@ -17,6 +17,8 @@ import concilia.ui.Ui;
 import concilia.ui.views.HomeBackdropView;
 
 import java.util.Locale;
+import android.content.Intent;
+import android.os.Build;
 
 /** Front page: "Concilia - The 21 Ecumenical Councils" + Begin the Journey (HomeScreen.tsx). */
 public class HomeActivity extends Activity {
@@ -26,6 +28,8 @@ public class HomeActivity extends Activity {
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         final Context c = this;
+
+
 
         FrameLayout root = new FrameLayout(c);
         root.setBackgroundColor(Palette.BACKGROUND);
@@ -97,6 +101,14 @@ public class HomeActivity extends Activity {
         FrameLayout.LayoutParams colLp = new FrameLayout.LayoutParams(colW, -2, Gravity.CENTER);
         root.addView(col, colLp);
         setContentView(root);
+
+        Intent musicIntent = new Intent(this, MusicService.class);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            startForegroundService(musicIntent);
+        } else {
+            startService(musicIntent);
+        }
     }
 
     @Override protected void onResume() {
@@ -129,5 +141,12 @@ public class HomeActivity extends Activity {
         row.addView(txt);
         if (out != null && slot >= 0) out[slot] = v;
         return row;
+    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        Intent musicIntent = new Intent(this, MusicService.class);
+        stopService(musicIntent);
     }
 }
