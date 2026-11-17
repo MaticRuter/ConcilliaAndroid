@@ -32,6 +32,7 @@ import concilia.ui.views.ProgressBarView;
 
 import java.util.Locale;
 import java.util.Random;
+import android.util.Log;
 
 /**
  * Lesson / quiz flow with the talking bishop (QuizScreen.tsx):
@@ -86,10 +87,28 @@ public class QuizActivity extends Activity {
         co = CouncilsData.byId(getIntent().getIntExtra(LessonActivity.EXTRA_COUNCIL_ID, 1));
         if (co == null) { finish(); return; }
 
-        lessons = CouncilsData.lessonsFor(this, co);
-        if (lessons == null || lessons.isEmpty()) { finish(); return; }
+        java.util.List<Lesson> loaded = CouncilsData.lessonsFor(this, co);
+        if (loaded == null || loaded.isEmpty()) { finish(); return; }
 
+        // Popolnoma nova lista + novi Lesson objekti
+        lessons = new java.util.ArrayList<>();
+        for (Lesson src : loaded) {
+            if (src.type == Lesson.Type.INFO) {
+                lessons.add(Lesson.info(src.id, src.title, src.content));
+            } else if (src.type == Lesson.Type.QUIZ) {
+                String[] opts = src.options.toArray(new String[0]);
+                lessons.add(Lesson.quiz(src.id, src.title, src.question, opts, src.correct,
+                        src.explanation != null ? src.explanation : ""));
+            }
+        }
 
+        Log.e("QuizDebug", "=== QUIZ START – total lessons: " + lessons.size() + " ===");
+        for (int i = 0; i < Math.min(10, lessons.size()); i++) {
+            Lesson l = lessons.get(i);
+            Log.e("QuizDebug", "  [" + i + "] idHash=" + System.identityHashCode(l)
+                    + " " + l.type + " | "
+                    + (l.question != null ? l.question.substring(0, Math.min(45, l.question.length())) : l.title));
+        }
 
         era = co.eraColor;
         pickCharacterName();
@@ -103,6 +122,8 @@ public class QuizActivity extends Activity {
             mood = b.getInt("mood");
             reaction = b.getString("reaction", "");
         }
+
+        // ... od tukaj naprej pusti ostalo kodo (FrameLayout root = ... itd.)
 
         FrameLayout root = new FrameLayout(c);
         root.setBackgroundColor(Palette.BACKGROUND);
@@ -183,13 +204,16 @@ public class QuizActivity extends Activity {
     }
 
     // ── interaction ──
-    private Lesson lesson() { return lessons.get(Math.min(lessonIdx, co.lessons.size() - 1)); }
+    private Lesson lesson() {
+        return lessons.get(Math.min(lessonIdx, lessons.size() - 1));
+    }
 
     private boolean isLast() { return lessonIdx == lessons.size() - 1; }
 
     private void onSelect(int idx) {
         if (phase != QUESTION) return;
         selected = idx;
+        Log.e("QuizDebug", "onSelect idx=" + idx + " correct=" + lesson().correct + " lessonIdx=" + lessonIdx);
         if (idx == lesson().correct) {
             phase = CORRECT;
             mood = CouncilCharacterView.HAPPY;
@@ -208,6 +232,7 @@ public class QuizActivity extends Activity {
     }
 
     private void onContinue() {
+        Log.e("QuizDebug", "onContinue phase=" + phase + " lessonIdx=" + lessonIdx + " type=" + lesson().type + " isLast=" + isLast());
         if (phase == READING) {
             if (lesson().type == Lesson.Type.INFO) {
                 advance();
@@ -222,13 +247,28 @@ public class QuizActivity extends Activity {
     }
 
     private void advance() {
+        Log.e("QuizDebug", "advance() BEFORE lessonIdx=" + lessonIdx
+                + " listHash=" + System.identityHashCode(lessons)
+                + " size=" + lessons.size()
+                + " get2=" + System.identityHashCode(lessons.get(Math.min(2, lessons.size()-1)))
+                + " get3=" + System.identityHashCode(lessons.get(Math.min(3, lessons.size()-1)))
+                + " current=" + System.identityHashCode(lesson()));
+
         if (isLast()) {
             phase = COMPLETE;
+            Log.e("QuizDebug", "→ COMPLETE");
         } else {
             lessonIdx++;
             phase = READING;
             selected = -1;
             mood = CouncilCharacterView.NEUTRAL;
+
+            Log.e("QuizDebug", "→ AFTER lessonIdx=" + lessonIdx
+                    + " listHash=" + System.identityHashCode(lessons)
+                    + " get2=" + System.identityHashCode(lessons.get(Math.min(2, lessons.size()-1)))
+                    + " get3=" + System.identityHashCode(lessons.get(Math.min(3, lessons.size()-1)))
+                    + " next=" + System.identityHashCode(lesson())
+                    + " Q=" + (lesson().question != null ? lesson().question.substring(0, Math.min(40, lesson().question.length())) : lesson().title));
         }
         render();
         scroll.post(new Runnable() { @Override public void run() { scroll.scrollTo(0, 0); } });

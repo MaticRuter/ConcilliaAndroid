@@ -1,0 +1,459 @@
+{
+  "id": 2,
+  "name": "Konstantinopel I",
+  "year": 381,
+  "levelCount": 6,
+  "description": "Drugi ekumenski koncil, ki je dokončno potrdil Nicejsko veroizpoved, razširil nauk o Svetem Duhu in obsodil makedonijanstvo, evnomijanstvo ter druge herezije.",
+  "mainConcept": "Popolna Trojica: Oče, Sin in Sveti Duh so pravi Bog",
+  "lessons": [
+    {
+      "lessonId": 1,
+      "title": "Uvod v Konstantinopel I",
+      "type": "intro",
+      "questions": [
+        {
+          "questionText": "Kdaj je potekal prvi carigrajski koncil?",
+          "type": "multiple_choice",
+          "answers": [
+            {
+              "text": "381",
+              "isCorrect": true
+            },
+            {
+              "text": "325",
+              "isCorrect": false
+            },
+            {
+              "text": "431",
+              "isCorrect": false
+            },
+            {
+              "text": "451",
+              "isCorrect": false
+            }
+          ]
+        },
+        {
+          "questionText": "Kje se je odvijal drugi ekumenski koncil?",
+          "type": "multiple_choice",
+          "answers": [
+            {
+              "text": "Konstantinopel",
+              "isCorrect": true
+            },
+            {
+              "text": "Niceja",
+              "isCorrect": false
+            },
+            {
+              "text": "Efez",
+              "isCorrect": false
+            },
+            {
+              "text": "Rim",
+              "isCorrect": false
+            }
+          ]
+        },
+        {
+          "questionText": "Glavni namen koncila je bil doseči mir glede vprašanj vere in cerkvene politike.",
+          "type": "true_false",
+          "answers": [
+            {
+              "text": "True",
+              "isCorrect": true
+            },
+            {
+              "text": "False",
+              "isCorrect": false
+            }
+          ]
+        },
+        {
+          "questionText": "Kateri prejšnji koncil je Konstantinopel I potrdil?",
+          "type": "multiple_choice",
+          "answers": [
+            {
+              "text": "Nicejski koncil (325)",
+              "isCorrect": true
+            },
+            {
+              "text": "Kalcedonski koncil",
+              "isCorrect": false
+            },
+            {
+              "text": "Efeški koncil",
+              "isCorrect": false
+            },
+            {
+              "text": "Lateranski koncil",
+              "isCorrect": false
+            }
+          ]
+        },
+        {
+          "questionText": "Konstantinopel I je zavrnil Nicejsko veroizpoved.",
+          "type": "true_false",
+          "answers": [
+            {
+              "text": "True",
+              "isCorrect": false
+            },
+            {
+              "text": "False",
+              "isCorrect": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lessonId": 2,
+      "title": "Herezije obdobja",
+      "type": "heresy",
+      "questions": [
+        {
+          "questionText": "Katera herezija je bila glavna tema glede Svetega Duha?",
+          "type": "multiple_choice",
+          "answers": [
+            {
+              "text": "Makedonijanstvo (pnevmatomahi)",
+              "isCorrect": true
+            },
+            {
+              "text": "Nestorianizem",
+              "isCorrect": false
+            },
+            {
+              "text": "Ikonoklazem",
+              "isCorrect": false
+            },
+            {
+              "text": "Monofizitizem",
+              "isCorrect": false
+            }
+          ]
+        },
+        {
+          "questionText": "Kaj je učilo makedonijanstvo?",
+          "type": "multiple_choice",
+          "answers": [
+            {
+              "text": "Sveti Duh ni pravi Bog",
+              "isCorrect": true
+            },
+            {
+              "text": "Sin ni pravi človek",
+              "isCorrect": false
+            },
+            {
+              "text": "Marija ni Kristusova mati",
+              "isCorrect": false
+            },
+            {
+              "text": "Kristus ima samo eno voljo",
+              "isCorrect": false
+            }
+          ]
+        },
+        {
+          "questionText": "Pnevmatomahi so zanikali božanskost Svetega Duha.",
+          "type": "true_false",
+          "answers": [
+            {
+              "text": "True",
+              "isCorrect": true
+            },
+            {
+              "text": "False",
+              "isCorrect": false
+            }
+          ]
+        },
+        {
+          "questionText": "Evnomijanci oziroma anomejci so učili, da Sin ni podoben Očetu.",
+          "type": "true_false",
+          "answers": [
+            {
+              "text": "True",
+              "isCorrect": true
+            },
+            {
+              "text": "False",
+              "isCorrect": false
+            }
+          ]
+        },
+        {
+          "questionText": "Katera druga kristološka herezija je bila obravnavana?",
+          "type": "multiple_choice",
+          "answers": [
+            {
+              "text": "Apolinarizem",
+              "isCorrect": true
+            },
+            {
+              "text": "Pelagijanizem",
+              "isCorrect": false
+            },
+            {
+              "text": "Donatizem",
+              "isCorrect": false
+            },
+            {
+              "text": "Monotelitizem",
+              "isCorrect": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lessonId": 3,
+      "title": "Sveti Duh in Trojica",
+      "type": "doctrine",
+      "questions": [
+        {
+          "questionText": "Kako veroizpoved opisuje Svetega Duha?",
+          "type": "multiple_choice",
+          "answers": [
+            {
+              "text": "Gospod in oživljalec",
+              "isCorrect": true
+            },
+            {
+              "text": "Ustvarjeno bitje",
+              "isCorrect": false
+            },
+            {
+              "text": "Angel",
+              "isCorrect": false
+            },
+            {
+              "text": "Služabnik Sina",
+              "isCorrect": false
+            }
+          ]
+        },
+        {
+          "questionText": "Dopolni: Verujem v Svetega Duha, ki izhaja ______.",
+          "type": "fill_blank",
+          "correctAnswer": "od Očeta"
+        },
+        {
+          "questionText": "Sveti Duh je po nauku koncila pravi Bog.",
+          "type": "true_false",
+          "answers": [
+            {
+              "text": "True",
+              "isCorrect": true
+            },
+            {
+              "text": "False",
+              "isCorrect": false
+            }
+          ]
+        },
+        {
+          "questionText": "Konstantinopel I je zmanjšal pomen Svetega Duha.",
+          "type": "true_false",
+          "answers": [
+            {
+              "text": "True",
+              "isCorrect": false
+            },
+            {
+              "text": "False",
+              "isCorrect": true
+            }
+          ]
+        },
+        {
+          "questionText": "Kaj je koncil potrdil glede Trojice?",
+          "type": "multiple_choice",
+          "answers": [
+            {
+              "text": "Oče, Sin in Sveti Duh imajo eno božansko naravo",
+              "isCorrect": true
+            },
+            {
+              "text": "Samo Oče je Bog",
+              "isCorrect": false
+            },
+            {
+              "text": "Sin je višje ustvarjeno bitje",
+              "isCorrect": false
+            },
+            {
+              "text": "Sveti Duh je angel",
+              "isCorrect": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lessonId": 4,
+      "title": "Pomembne osebe",
+      "type": "people",
+      "questions": [
+        {
+          "questionText": "Kdo je sklical prvi carigrajski koncil?",
+          "type": "multiple_choice",
+          "answers": [
+            {
+              "text": "Gracijan in Teodozij I.",
+              "isCorrect": true
+            },
+            {
+              "text": "Konstantin Veliki",
+              "isCorrect": false
+            },
+            {
+              "text": "Leon I.",
+              "isCorrect": false
+            },
+            {
+              "text": "Justinijan",
+              "isCorrect": false
+            }
+          ]
+        },
+        {
+          "questionText": "Kdo je prvi predsedoval koncilu?",
+          "type": "multiple_choice",
+          "answers": [
+            {
+              "text": "Meletij Antiohijski",
+              "isCorrect": true
+            },
+            {
+              "text": "Gregor Veliki",
+              "isCorrect": false
+            },
+            {
+              "text": "Atanazij",
+              "isCorrect": false
+            },
+            {
+              "text": "Ciril Aleksandrijski",
+              "isCorrect": false
+            }
+          ]
+        },
+        {
+          "questionText": "Kdo je po smrti Meletija prevzel predsedovanje?",
+          "type": "multiple_choice",
+          "answers": [
+            {
+              "text": "Gregor Nazianški",
+              "isCorrect": true
+            },
+            {
+              "text": "Gregor Niški",
+              "isCorrect": false
+            },
+            {
+              "text": "Ambrož Milanski",
+              "isCorrect": false
+            },
+            {
+              "text": "Bazilij Veliki",
+              "isCorrect": false
+            }
+          ]
+        },
+        {
+          "questionText": "Papež Damaz je poslal veliko delegacijo na koncil.",
+          "type": "true_false",
+          "answers": [
+            {
+              "text": "True",
+              "isCorrect": false
+            },
+            {
+              "text": "False",
+              "isCorrect": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lessonId": 5,
+      "title": "Dokumenti in kanoni",
+      "type": "documents",
+      "questions": [
+        {
+          "questionText": "Kaj je koncil storil z Nicejsko veroizpovedjo?",
+          "type": "multiple_choice",
+          "answers": [
+            {
+              "text": "Ohranil jo je in razširil",
+              "isCorrect": true
+            },
+            {
+              "text": "Zavrnil jo je",
+              "isCorrect": false
+            },
+            {
+              "text": "Prepovedal jo je",
+              "isCorrect": false
+            },
+            {
+              "text": "Zamenjal jo je z drugo veroizpovedjo",
+              "isCorrect": false
+            }
+          ]
+        },
+        {
+          "questionText": "Nicejsko-carigrajska veroizpoved ima veliko avtoriteto zaradi povezave s prvima dvema ekumenskima konciloma.",
+          "type": "true_false",
+          "answers": [
+            {
+              "text": "True",
+              "isCorrect": true
+            },
+            {
+              "text": "False",
+              "isCorrect": false
+            }
+          ]
+        },
+        {
+          "questionText": "Poveži izraz z opisom.",
+          "type": "matching",
+          "leftItems": [
+            "Makedonijanstvo",
+            "Nicejska vera",
+            "Apolinarizem"
+          ],
+          "rightItems": [
+            "Zanikanje Svetega Duha kot Boga",
+            "Potrjena na koncilu",
+            "Zanikanje popolne Kristusove človeškosti"
+          ],
+          "correctMatches": [
+            "0",
+            "1",
+            "2"
+          ]
+        },
+        {
+          "questionText": "Prvi carigrajski koncil je bil v 4. stoletju.",
+          "type": "true_false",
+          "answers": [
+            {
+              "text": "True",
+              "isCorrect": true
+            },
+            {
+              "text": "False",
+              "isCorrect": false
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

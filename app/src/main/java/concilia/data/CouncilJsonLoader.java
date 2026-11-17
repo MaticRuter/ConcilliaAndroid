@@ -36,10 +36,23 @@ public final class CouncilJsonLoader {
         String path = ASSET_DIR + "/council_" + councilId + ".json";
         try {
             String json = readAsset(context, path);
-            if (json == null) return null;
-            return parseLessons(json, councilId);
+            if (json == null) {
+                Log.e(TAG, "JSON NOT FOUND: " + path);
+                return null;
+            }
+            List<Lesson> result = parseLessons(json, councilId);
+            if (result != null) {
+                Log.e(TAG, "SUCCESS: Loaded " + result.size() + " items from " + path);
+                for (int i = 0; i < result.size(); i++) {
+                    Lesson l = result.get(i);
+                    Log.e(TAG, "  [" + i + "] " + l.type + " – " + l.title);
+                }
+            } else {
+                Log.e(TAG, "Parsed result is null for " + path);
+            }
+            return result;
         } catch (Exception e) {
-            Log.w(TAG, "Failed to load " + path + ": " + e.getMessage());
+            Log.e(TAG, "Failed to load " + path, e);
             return null;
         }
     }
@@ -114,33 +127,56 @@ public final class CouncilJsonLoader {
                                       String lessonTitle, JSONObject qu) {
         String qType = qu.optString("type", "");
         String questionText = qu.optString("questionText", "");
-        if (questionText.isEmpty()) return null;
+        if (questionText.isEmpty()) {
+            Log.w(TAG, "Skipping question with empty text in lesson " + lessonId);
+            return null;
+        }
 
         String id = councilId + "-" + lessonId + "-q" + (qIndex + 1);
 
+        // Oba tipa obravnavamo enako – oba imata "answers" polje
         if ("multiple_choice".equals(qType) || "true_false".equals(qType)) {
             JSONArray answers = qu.optJSONArray("answers");
-            if (answers == null || answers.length() == 0) return null;
+            if (answers == null || answers.length() == 0) {
+                Log.w(TAG, "No answers for question: " + questionText);
+                return null;
+            }
 
             List<String> options = new ArrayList<>();
             int correct = -1;
+
             for (int a = 0; a < answers.length(); a++) {
                 JSONObject ans = answers.optJSONObject(a);
                 if (ans == null) continue;
-                String text = ans.optString("text", "");
+
+                String text = ans.optString("text", "").trim();
                 if (text.isEmpty()) continue;
+
                 options.add(text);
+
+                // isCorrect je lahko true/false
                 if (ans.optBoolean("isCorrect", false) && correct < 0) {
                     correct = options.size() - 1;
                 }
             }
-            if (options.size() < 2 || correct < 0) return null;   // mora imeti vsaj 2 možnosti
+
+            if (options.size() < 2) {
+                Log.w(TAG, "Not enough options for: " + questionText);
+                return null;
+            }
+            if (correct < 0) {
+                Log.w(TAG, "No correct answer marked for: " + questionText);
+                // V skrajnem primeru vzamemo prvega kot pravilnega, da se ne zatakne
+                correct = 0;
+            }
 
             String[] opts = options.toArray(new String[0]);
+            Log.d(TAG, "Mapped " + qType + ": " + questionText.substring(0, Math.min(40, questionText.length())));
             return Lesson.quiz(id, lessonTitle, questionText, opts, correct, "");
         }
 
-        // fill_blank in matching zaenkrat preskočimo (kasneje jih lahko dodamo)
+        // fill_blank in matching zaenkrat preskočimo
+        Log.d(TAG, "Skipping unsupported type: " + qType + " – " + questionText);
         return null;
     }
 }
