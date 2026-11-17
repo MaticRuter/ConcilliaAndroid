@@ -15,6 +15,7 @@ import android.widget.TextView;
 import concilia.data.Council;
 import concilia.data.CouncilsData;
 import concilia.data.Lesson;
+import concilia.data.ProgressStore;
 import concilia.ui.Fonts;
 import concilia.ui.Palette;
 import concilia.ui.Ui;
@@ -98,6 +99,7 @@ public class LessonActivity extends Activity {
         decision.setOrientation(LinearLayout.VERTICAL);
         decision.setPadding(Ui.dp(c, 16), Ui.dp(c, 16), Ui.dp(c, 16), Ui.dp(c, 16));
         decision.setBackground(Ui.box(c, Ui.alpha(era, 0x15), Ui.alpha(era, 0x44), 1, 12));
+
         TextView dl = sectionLabel(c, "Key Decision", era);
         decision.addView(dl, Ui.lpMargins(c, -2, -2, 0, 0, 0, 6));
         TextView dt = Ui.text(c, co.decision, 14, Palette.FOREGROUND, Fonts.inter(c, 400));
@@ -169,59 +171,78 @@ public class LessonActivity extends Activity {
 
 
 
-        // lessons list – prikažemo samo visokonivojske lekcije (INFO)
+        // ── Lessons list (high-level units from JSON) ──
         final java.util.List<Lesson> all = CouncilsData.lessonsFor(c, co);
+
         final java.util.List<Lesson> units = new java.util.ArrayList<>();
+        final java.util.List<Integer> unitLessonIds = new java.util.ArrayList<>();
         for (Lesson l : all) {
-            if (l.type == Lesson.Type.INFO) units.add(l);
+            if (l.type == Lesson.Type.INFO) {
+                units.add(l);
+                try {
+                    String[] parts = l.id.split("-");
+                    unitLessonIds.add(Integer.parseInt(parts[1]));
+                } catch (Exception e) {
+                    unitLessonIds.add(units.size());
+                }
+            }
         }
 
-        sec.addView(sectionLabel(c, "Lessons in this Council", Palette.MUTED), Ui.lpMargins(c, -2, -2, 0, 0, 0, 12));
-        for (int i = 0; i < units.size(); i++) {
-            Lesson l = units.get(i);
-            LinearLayout row = infoRow(c);
+        final ProgressStore progress = ProgressStore.get(c);
+        final int nextId = progress.nextLessonId(co.id, units.size());
 
-            TextView num = Ui.text(c, String.valueOf(i + 1), 12, era, Fonts.inter(c, 700));
+
+        sec.addView(sectionLabel(c, "Lessons in this Council", Palette.MUTED), Ui.lpMargins(c, -2, -2, 0, 0, 0, 12));
+
+        for (int i = 0; i < units.size(); i++) {
+            final Lesson unit = units.get(i);
+            final int lessonId = unitLessonIds.get(i);
+            final boolean completed = progress.isLessonCompleted(co.id, lessonId);
+            final boolean locked = !completed && lessonId != nextId;
+
+            LinearLayout row = infoRow(c);
+            row.setAlpha(locked ? 0.45f : 1f);
+
+            String badge = locked ? "🔒" : (completed ? "✓" : String.valueOf(i + 1));
+            TextView num = Ui.text(c, badge, 13, era, Fonts.inter(c, 700));
             num.setGravity(Gravity.CENTER);
             num.setBackground(Ui.box(c, Ui.alpha(era, 0x22), 0, 0, 999));
-            row.addView(num, Ui.lpMargins(c, 28, 28, 0, 0, 12, 0));
+            row.addView(num, Ui.lpMargins(c, 32, 32, 0, 0, 12, 0));
 
             LinearLayout mid = new LinearLayout(c);
             mid.setOrientation(LinearLayout.VERTICAL);
-            TextView lt = Ui.text(c, l.title, 14, Palette.FOREGROUND, Fonts.inter(c, 500));
+            TextView lt = Ui.text(c, unit.title, 14, Palette.FOREGROUND, Fonts.inter(c, 500));
             lt.setSingleLine(true);
             lt.setEllipsize(TextUtils.TruncateAt.END);
             mid.addView(lt);
-            mid.addView(Ui.text(c, "Lesson", 12, Palette.MUTED, Fonts.inter(c, 400)));
+            String status = completed ? "Completed" : (locked ? "Locked" : "Start lesson");
+            mid.addView(Ui.text(c, status, 12, Palette.MUTED, Fonts.inter(c, 400)));
             row.addView(mid, new LinearLayout.LayoutParams(0, -2, 1f));
 
-            TextView xp = Ui.text(c, "5 XP", 12, Palette.MUTED, Fonts.inter(c, 400));
-            xp.setPadding(Ui.dp(c, 8), Ui.dp(c, 2), Ui.dp(c, 8), Ui.dp(c, 2));
-            xp.setBackground(Ui.box(c, Palette.BORDER, 0, 0, 999));
-            row.addView(xp);
+            if (!locked) {
+                row.setClickable(true);
+                Ui.pressScale(row, 0.98f);
+                row.setOnClickListener(new View.OnClickListener() {
+                    @Override public void onClick(View v) {
+                        Intent intent = new Intent(LessonActivity.this, QuizActivity.class);
+                        intent.putExtra(EXTRA_COUNCIL_ID, co.id);
+                        intent.putExtra("lesson_id", lessonId);
+                        startActivity(intent);
+                    }
+                });
+            }
 
             sec.addView(row, Ui.lpMargins(c, -1, -2, 0, 0, 0, i == units.size() - 1 ? 0 : 8));
         }
 
-        // ── bottom CTA ──
-        root.addView(Ui.hairline(c, Palette.BORDER));
-        LinearLayout bar = new LinearLayout(c);
-        bar.setPadding(Ui.dp(c, 24), Ui.dp(c, 16), Ui.dp(c, 24), Ui.dp(c, 16));
-        bar.setBackgroundColor(Palette.BACKGROUND);
-        TextView cta = Ui.glowButton(c, "Begin Lessons →", era, Palette.FOREGROUND, 16,
-                Fonts.inter(c, 600), 12, 0.025f, Ui.alpha(era, 0x66));
-        cta.setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View v) {
-                Intent i = new Intent(LessonActivity.this, QuizActivity.class);
-                i.putExtra(EXTRA_COUNCIL_ID, co.id);
-                startActivity(i);
-            }
-        });
-        bar.addView(cta, Ui.lp(-1, -2));
-        root.addView(bar, Ui.lp(-1, -2));
+        // Pomembno: dodaj sec v body in scroll v root
+        body.addView(sec, Ui.lp(-1, -2));
+        scroll.addView(body, new FrameLayout.LayoutParams(-1, -2));
+        root.addView(scroll, new LinearLayout.LayoutParams(-1, 0, 1f));
 
         setContentView(root);
     }
+
 
     /** 12sp uppercase tracking-widest label. */
     private static TextView sectionLabel(Context c, String s, int color) {

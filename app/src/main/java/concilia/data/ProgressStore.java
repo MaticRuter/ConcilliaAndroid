@@ -72,4 +72,32 @@ public final class ProgressStore {
     }
 
     public void resetAll() { prefs.edit().clear().apply(); }
+    // ── per-lesson progress ──
+    private static final String K_LESSONS = "completed_lessons";
+
+    public Set<String> getCompletedLessons() {
+        return new HashSet<>(prefs.getStringSet(K_LESSONS, new HashSet<String>()));
+    }
+
+    public boolean isLessonCompleted(int councilId, int lessonId) {
+        return getCompletedLessons().contains(councilId + "-" + lessonId);
+    }
+
+    public void completeLesson(int councilId, int lessonId, int xpGained) {
+        Set<String> set = new HashSet<>(getCompletedLessons());
+        set.add(councilId + "-" + lessonId);
+        prefs.edit()
+                .putStringSet(K_LESSONS, set)
+                .putInt(K_XP, getXp() + xpGained)
+                .apply();
+    }
+
+    /** Vrne prvo še neodklenjeno lessonId za ta koncil (1-based). Če so vse končane, vrne -1. */
+    public int nextLessonId(int councilId, int maxLessonId) {
+        for (int i = 1; i <= maxLessonId; i++) {
+            if (!isLessonCompleted(councilId, i)) return i;
+        }
+        return -1;
+    }
 }
+

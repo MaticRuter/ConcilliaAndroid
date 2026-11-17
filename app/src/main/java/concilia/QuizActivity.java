@@ -58,6 +58,7 @@ public class QuizActivity extends Activity {
     private static final String HEART = "❤️";
 
     private java.util.List<Lesson> lessons;
+    private int targetLessonId = -1;
 
 
     // ── state (all saved across rotation) ──
@@ -99,6 +100,27 @@ public class QuizActivity extends Activity {
                 String[] opts = src.options.toArray(new String[0]);
                 lessons.add(Lesson.quiz(src.id, src.title, src.question, opts, src.correct,
                         src.explanation != null ? src.explanation : ""));
+            }
+        }
+        targetLessonId = getIntent().getIntExtra("lesson_id", -1);
+
+        // Če je izbrana konkretna lekcija, filtriraj samo njene elemente
+        if (targetLessonId > 0) {
+            java.util.List<Lesson> filtered = new java.util.ArrayList<>();
+            boolean inTarget = false;
+            for (Lesson l : lessons) {
+                if (l.type == Lesson.Type.INFO) {
+                    try {
+                        int id = Integer.parseInt(l.id.split("-")[1]);
+                        inTarget = (id == targetLessonId);
+                    } catch (Exception e) {
+                        inTarget = false;
+                    }
+                }
+                if (inTarget) filtered.add(l);
+            }
+            if (!filtered.isEmpty()) {
+                lessons = filtered;
             }
         }
 
@@ -275,13 +297,19 @@ public class QuizActivity extends Activity {
     }
 
     private void finishCouncil() {
-        ProgressStore.get(c).completeCouncil(co.id, xpGained);
-        Intent i = new Intent(this, TimelineActivity.class);
-        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        startActivity(i);
-        finish();
+        if (targetLessonId > 0) {
+            // Končali smo samo eno lekcijo → shrani progress in pojdi nazaj na LessonActivity
+            ProgressStore.get(c).completeLesson(co.id, targetLessonId, xpGained);
+            finish();   // samo zapri QuizActivity, LessonActivity je še v back stacku
+        } else {
+            // Stari način (cel koncil)
+            ProgressStore.get(c).completeCouncil(co.id, xpGained);
+            Intent i = new Intent(this, TimelineActivity.class);
+            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            startActivity(i);
+            finish();
+        }
     }
-
     // ── effects ──
     private void showBurst() {
         burst.setVisibility(View.VISIBLE);
