@@ -25,6 +25,7 @@ import java.util.Locale;
 
 /** Council detail page: hero, key decision, overview, heresy, key figure, quote, lessons (LessonScreen.tsx). */
 public class LessonActivity extends Activity {
+    private boolean shouldRefreshLessons = false;
     public static final String EXTRA_COUNCIL_ID = "council_id";
 
     @Override protected void onCreate(Bundle savedInstanceState) {
@@ -224,6 +225,7 @@ public class LessonActivity extends Activity {
                 Ui.pressScale(row, 0.98f);
                 row.setOnClickListener(new View.OnClickListener() {
                     @Override public void onClick(View v) {
+                        shouldRefreshLessons = true;
                         Intent intent = new Intent(LessonActivity.this, QuizActivity.class);
                         intent.putExtra(EXTRA_COUNCIL_ID, co.id);
                         intent.putExtra("lesson_id", lessonId);
@@ -241,6 +243,14 @@ public class LessonActivity extends Activity {
         root.addView(scroll, new LinearLayout.LayoutParams(-1, 0, 1f));
 
         setContentView(root);
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (shouldRefreshLessons) {
+            shouldRefreshLessons = false;
+            recreate();
+        }
     }
 
 

@@ -92,6 +92,14 @@ public final class ProgressStore {
                 .apply();
     }
 
+    /** Vrne true, če so vse lekcije do maxLessonId končane. */
+    public boolean areAllLessonsCompleted(int councilId, int maxLessonId) {
+        for (int i = 1; i <= maxLessonId; i++) {
+            if (!isLessonCompleted(councilId, i)) return false;
+        }
+        return true;
+    }
+
     /** Vrne prvo še neodklenjeno lessonId za ta koncil (1-based). Če so vse končane, vrne -1. */
     public int nextLessonId(int councilId, int maxLessonId) {
         for (int i = 1; i <= maxLessonId; i++) {

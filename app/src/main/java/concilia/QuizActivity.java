@@ -56,6 +56,7 @@ public class QuizActivity extends Activity {
     };
 
     private static final String HEART = "❤️";
+    private boolean failed = false;
 
     private java.util.List<Lesson> lessons;
     private int targetLessonId = -1;
@@ -250,6 +251,18 @@ public class QuizActivity extends Activity {
             hearts = Math.max(0, hearts - 1);
             shakePending = true;
             render();
+
+            // Če so srca na 0 → po kratkem trenutku pokaži fail ekran
+            if (hearts == 0) {
+                content.postDelayed(new Runnable() {
+                    @Override public void run() {
+                        phase = COMPLETE;          // uporabimo COMPLETE fazo
+                        // ampak označimo, da je fail
+                        failed = true;
+                        render();
+                    }
+                }, 900);
+            }
         }
     }
 
@@ -298,11 +311,25 @@ public class QuizActivity extends Activity {
 
     private void finishCouncil() {
         if (targetLessonId > 0) {
-            // Končali smo samo eno lekcijo → shrani progress in pojdi nazaj na LessonActivity
-            ProgressStore.get(c).completeLesson(co.id, targetLessonId, xpGained);
-            finish();   // samo zapri QuizActivity, LessonActivity je še v back stacku
+            ProgressStore store = ProgressStore.get(c);
+            store.completeLesson(co.id, targetLessonId, xpGained);
+
+            // Koliko lekcij ima ta koncil? (iz JSON levelCount ali preštej INFO)
+            int maxLessons = 5; // privzeto za Nicejo – ali preberi iz JSON
+            // Bolje: preštej koliko INFO enot obstaja
+            java.util.List<Lesson> all = CouncilsData.lessonsFor(c, co);
+            int count = 0;
+            for (Lesson l : all) {
+                if (l.type == Lesson.Type.INFO) count++;
+            }
+            if (count > 0) maxLessons = count;
+
+            if (store.areAllLessonsCompleted(co.id, maxLessons)) {
+                store.completeCouncil(co.id, 0);
+            }
+
+            finish();
         } else {
-            // Stari način (cel koncil)
             ProgressStore.get(c).completeCouncil(co.id, xpGained);
             Intent i = new Intent(this, TimelineActivity.class);
             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
@@ -564,24 +591,35 @@ public class QuizActivity extends Activity {
 
         CouncilCharacterView big = new CouncilCharacterView(c, Ui.dp(c, 140));
         big.setEra(co.era);
-        big.setMood(CouncilCharacterView.HAPPY);
+        big.setMood(failed ? CouncilCharacterView.SAD : CouncilCharacterView.HAPPY);
         col.addView(big, Ui.lpMargins(c, -2, -2, 0, 0, 0, 8));
 
-        TextView trophy = Ui.text(c, "🏆", 36, Palette.FOREGROUND, null);
+        TextView trophy = Ui.text(c, failed ? "💔" : "🏆", 36, Palette.FOREGROUND, null);
         col.addView(trophy, Ui.lpMargins(c, -2, -2, 0, -12, 0, 12));
 
-        TextView h = Ui.text(c, "Council Complete!", 24, Palette.FOREGROUND, Fonts.playfair(c, 700));
+        TextView h = Ui.text(c,
+                failed ? "Lekcija ni uspela" : "Council Complete!",
+                24, Palette.FOREGROUND, Fonts.playfair(c, 700));
         col.addView(h, Ui.lpMargins(c, -2, -2, 0, 0, 0, 4));
-        TextView sub = Ui.text(c, charName + " is proud of your progress.", 12, Palette.MUTED, Fonts.inter(c, 400));
+
+        TextView sub = Ui.text(c,
+                failed
+                        ? "Izgubil si vsa srca. Poskusi znova."
+                        : (charName + " is proud of your progress."),
+                12, Palette.MUTED, Fonts.inter(c, 400));
         col.addView(sub, Ui.lpMargins(c, -2, -2, 0, 0, 0, 24));
 
+        // Stats kartica
         LinearLayout card = new LinearLayout(c);
         card.setOrientation(LinearLayout.VERTICAL);
         card.setPadding(Ui.dp(c, 20), Ui.dp(c, 20), Ui.dp(c, 20), Ui.dp(c, 20));
         card.setBackground(Ui.box(c, Palette.CARD, Ui.alpha(era, 0x55), 1, 16));
 
-        card.addView(statRow("XP Earned", Ui.text(c, "+" + xpGained + " XP", 20, Palette.GOLD, Fonts.inter(c, 700))),
-                Ui.lpMargins(c, -1, -2, 0, 0, 0, 12));
+        if (!failed) {
+            card.addView(statRow("XP Earned",
+                            Ui.text(c, "+" + xpGained + " XP", 20, Palette.GOLD, Fonts.inter(c, 700))),
+                    Ui.lpMargins(c, -1, -2, 0, 0, 0, 12));
+        }
 
         LinearLayout hs = new LinearLayout(c);
         for (int i = 0; i < 3; i++) {
@@ -592,13 +630,26 @@ public class QuizActivity extends Activity {
         card.addView(statRow("Hearts", hs), Ui.lpMargins(c, -1, -2, 0, 0, 0, 12));
 
         int n = lessons.size();
-        card.addView(statRow("Lessons", Ui.text(c, n + "/" + n, 14, era, Fonts.inter(c, 700))), Ui.lp(-1, -2));
+        card.addView(statRow("Lessons",
+                        Ui.text(c, failed ? "0/" + n : n + "/" + n, 14, era, Fonts.inter(c, 700))),
+                Ui.lp(-1, -2));
+
         col.addView(card, Ui.lpMargins(c, -1, -2, 0, 0, 0, 20));
 
-        TextView go = Ui.glowButton(c, "Continue →", Palette.GOLD, Palette.BACKGROUND, 16,
-                Fonts.inter(c, 700), 16, 0f, Ui.alpha(Palette.GOLD, 0x66));
+        TextView go = Ui.glowButton(c,
+                failed ? "Poskusi znova →" : "Continue →",
+                failed ? era : Palette.GOLD,
+                failed ? Palette.FOREGROUND : Palette.BACKGROUND,
+                16, Fonts.inter(c, 700), 16, 0f,
+                Ui.alpha(failed ? era : Palette.GOLD, 0x66));
         go.setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View v) { finishCouncil(); }
+            @Override public void onClick(View v) {
+                if (failed) {
+                    finish();   // NE označi lekcije kot končane
+                } else {
+                    finishCouncil();
+                }
+            }
         });
         col.addView(go, Ui.lp(-1, -2));
         content.addView(col, Ui.lp(-1, -2));
